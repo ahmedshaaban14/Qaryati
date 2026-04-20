@@ -31,26 +31,33 @@ builder.Services.ConfigureApplicationCookie(options =>
 var app = builder.Build();
 
 // Seed admin user
-using (var scope = app.Services.CreateScope())
+try
 {
-    var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
-    string adminEmail = "admin@qaryati.com";
-    string adminPassword = "admin123";
-
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
+    using (var scope = app.Services.CreateScope())
     {
-        adminUser = new ApplicationUser
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            EmailConfirmed = true
-        };
+        var services = scope.ServiceProvider;
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        await userManager.CreateAsync(adminUser, adminPassword);
+        string adminEmail = "admin@qaryati.com";
+        string adminPassword = "admin123";
+
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            adminUser = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
+            };
+
+            await userManager.CreateAsync(adminUser, adminPassword);
+        }
     }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database seed warning: {ex.Message}");
 }
 
 // Configure the HTTP request pipeline.
