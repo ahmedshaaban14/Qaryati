@@ -1,0 +1,62 @@
+@model Qaryati.Models.AdSubmission
+
+@{
+    ViewData["Title"] = "تعديل الإعلان";
+}
+
+<h1 class="mb-4">تعديل طلب الإعلان</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Status" />
+    <input type="hidden" asp-for="CreatedAt" />
+    <input type="hidden" asp-for="ImageUrl" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="AdvertiserName" class="form-label"></label>
+            <input asp-for="AdvertiserName" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="AdType" class="form-label"></label>
+            <input asp-for="AdType" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="VillageName" class="form-label"></label>
+            <input asp-for="VillageName" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" />
+        </div>
+
+        <div class="col-12 mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="col-12 mb-3">
+                <label class="form-label">الصورة الحالية</label><br />
+                <img src="@Model.ImageUrl" style="max-width: 250px;" class="img-thumbnail" />
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+    <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+</form>

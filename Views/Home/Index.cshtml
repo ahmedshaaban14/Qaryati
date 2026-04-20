@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Qaryati.Models.Category>
+
+@functions {
+    public string GetCategoryIcon(string categoryName)
+    {
+        if (string.IsNullOrEmpty(categoryName))
+            return "📂";
+
+        categoryName = categoryName.ToLower();
+
+        if (categoryName.Contains("صيد"))
+            return "💊";
+        if (categoryName.Contains("مطعم") || categoryName.Contains("أكل"))
+            return "🍽️";
+        if (categoryName.Contains("سوبر") || categoryName.Contains("ماركت"))
+            return "🛒";
+        if (categoryName.Contains("صنايعي") || categoryName.Contains("كهرب") || categoryName.Contains("سباك") || categoryName.Contains("نجار"))
+            return "🔧";
+        if (categoryName.Contains("دكتور") || categoryName.Contains("طبيب") || categoryName.Contains("عيادة"))
+            return "🩺";
+        if (categoryName.Contains("مخبز") || categoryName.Contains("عيش") || categoryName.Contains("فرن"))
+            return "🍞";
+        if (categoryName.Contains("موبايل") || categoryName.Contains("هاتف"))
+            return "📱";
+        if (categoryName.Contains("توصيل") || categoryName.Contains("دليفري"))
+            return "🚚";
+
+        return "📂";
+    }
+}
+
+@{
+    ViewData["Title"] = "منطقتي";
+    var featuredServices = ViewBag.FeaturedServices as List<Qaryati.Models.Service>;
+    var selectedVillage = ViewBag.SelectedVillage as string;
+}
+
+<section class="hero-box mb-5 text-center">
+    <h1 class="display-5 fw-bold mb-3">أهلاً بيك في منطقتي</h1>
+    <p class="lead mb-3">
+        دليل خدمات القرية في مكان واحد بشكل سهل وسريع
+    </p>
+    <p class="text-muted mb-4">
+        دور على الصنايعية، المطاعم، الصيدليات، السوبر ماركت، الأطباء، وكل الخدمات اللي محتاجها
+    </p>
+
+    <form asp-controller="Home" asp-action="Index" method="get" class="row justify-content-center g-2">
+        <div class="col-md-4">
+            <input type="text" name="searchTerm" class="form-control form-control-lg" placeholder="ابحث عن خدمة أو اسم محل..." />
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="villageName" value="@selectedVillage" class="form-control form-control-lg" placeholder="اكتب اسم البلد..." />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-warning btn-lg px-4">ابحث الآن</button>
+        </div>
+    </form>
+</section>
+
+@if (!string.IsNullOrEmpty(selectedVillage))
+{
+    <div class="alert alert-info mb-4">
+        يتم عرض النتائج الخاصة بالبلد: <strong>@selectedVillage</strong>
+    </div>
+}
+
+@if (featuredServices != null && featuredServices.Any())
+{
+    <section class="mb-5">
+        <div class="section-header mb-4">
+            <h2 class="mb-0">الخدمات المميزة</h2>
+            <span class="custom-badge">الأكثر ظهورًا</span>
+        </div>
+
+        <div class="row">
+            @foreach (var service in featuredServices)
+            {
+                var firstLetter = !string.IsNullOrEmpty(service.Name) ? service.Name.Substring(0, 1) : "خ";
+
+                <div class="col-md-4 mb-4">
+                    <div class="service-card h-100">
+                        <div class="service-card-body">
+                            <div class="service-avatar">@firstLetter</div>
+
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h4 class="service-title mb-0">@service.Name</h4>
+                                <span class="badge bg-warning text-dark">مميز</span>
+                            </div>
+
+                            <p class="service-description">
+                                @(string.IsNullOrEmpty(service.Description) ? "لا يوجد وصف متاح" : service.Description)
+                            </p>
+
+                            <div class="service-meta">
+                                <p><strong>القسم:</strong> @service.Category?.Name</p>
+                                <p><strong>البلد:</strong> @(string.IsNullOrEmpty(service.VillageName) ? "غير محددة" : service.VillageName)</p>
+                                <p><strong>الهاتف:</strong> @service.PhoneNumber</p>
+                            </div>
+
+                            <div class="d-flex gap-2 flex-wrap mt-3">
+                                <a asp-action="ServiceDetails" asp-route-id="@service.Id" class="btn btn-warning btn-sm">
+                                    عرض التفاصيل
+                                </a>
+                                <a href="tel:@service.PhoneNumber" class="btn btn-success btn-sm">
+                                    اتصال
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+else
+{
+    <div class="alert alert-secondary mb-4">
+        لا توجد خدمات مميزة متاحة حاليًا لهذا الفلتر.
+    </div>
+}
+
+<section class="mb-4">
+    <div class="section-header mb-4">
+        <h2 class="mb-0">أقسام الخدمات</h2>
+        <span class="section-subtitle">كل خدمات القرية في مكان واحد</span>
+    </div>
+
+    <div class="row">
+        @foreach (var category in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="category-card h-100">
+                    <div class="category-card-body d-flex flex-column">
+                        <div class="category-icon mb-3">@GetCategoryIcon(category.Name)</div>
+
+                        <h4 class="category-title mb-3">@category.Name</h4>
+
+                        <p class="category-description flex-grow-1">
+                            @(string.IsNullOrEmpty(category.Description) ? "لا يوجد وصف لهذا القسم حاليًا." : category.Description)
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-light text-dark border">
+                                عدد الخدمات: @category.Services.Count
+                            </span>
+
+                            <a asp-action="CategoryServices" asp-route-id="@category.Id" class="btn btn-primary btn-sm">
+                                عرض الخدمات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

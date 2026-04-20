@@ -1,0 +1,73 @@
+@model Qaryati.Models.Category
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<section class="hero-box mb-5 text-center">
+    <h1 class="display-6 fw-bold mb-3">@Model.Name</h1>
+    <p class="text-muted mb-0">
+        @(string.IsNullOrEmpty(Model.Description) ? "استعرض كل الخدمات الموجودة داخل هذا القسم." : Model.Description)
+    </p>
+</section>
+
+@if (Model.Services.Any())
+{
+    <div class="row">
+        @foreach (var service in Model.Services)
+        {
+            var firstLetter = !string.IsNullOrEmpty(service.Name) ? service.Name.Substring(0, 1) : "خ";
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="service-card h-100">
+                    <div class="service-card-body d-flex flex-column">
+                        <div class="service-avatar">@firstLetter</div>
+
+                        @if (service.IsFeatured)
+                        {
+                            <span class="badge bg-warning text-dark mb-2 align-self-start">خدمة مميزة</span>
+                        }
+
+                        <h4 class="service-title">@service.Name</h4>
+
+                        <p class="service-description">
+                            @(string.IsNullOrEmpty(service.Description) ? "لا يوجد وصف متاح لهذه الخدمة." : service.Description)
+                        </p>
+
+                        <div class="service-meta">
+                            <p><strong>رقم الهاتف:</strong> @service.PhoneNumber</p>
+                            <p><strong>العنوان:</strong> @(string.IsNullOrEmpty(service.Address) ? "غير متوفر" : service.Address)</p>
+                        </div>
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <a asp-action="ServiceDetails" asp-route-id="@service.Id" class="btn btn-primary btn-sm">
+                                عرض التفاصيل
+                            </a>
+
+                            <a href="tel:@service.PhoneNumber" class="btn btn-success btn-sm">
+                                اتصال
+                            </a>
+
+                            @if (!string.IsNullOrEmpty(service.WhatsAppNumber))
+                            {
+                                <a href="https://wa.me/@service.WhatsAppNumber" target="_blank" class="btn btn-outline-success btn-sm">
+                                    واتساب
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info shadow-sm">
+        لا توجد خدمات في هذا القسم حاليًا.
+    </div>
+}
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">الرجوع للرئيسية</a>
+</div>

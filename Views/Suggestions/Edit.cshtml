@@ -1,0 +1,92 @@
+@model Qaryati.Models.Suggestion
+
+@{
+    ViewData["Title"] = "تعديل الاقتراح";
+}
+
+<h1 class="mb-4">تعديل الاقتراح قبل الموافقة</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Status" />
+    <input type="hidden" asp-for="CreatedAt" />
+    <input type="hidden" asp-for="ImageUrl" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="SubmitterName" class="form-label"></label>
+            <input asp-for="SubmitterName" class="form-control" />
+            <span asp-validation-for="SubmitterName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="SubmitterPhone" class="form-label"></label>
+            <input asp-for="SubmitterPhone" class="form-control" />
+            <span asp-validation-for="SubmitterPhone" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="ServiceName" class="form-label"></label>
+            <input asp-for="ServiceName" class="form-control" />
+            <span asp-validation-for="ServiceName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="CategoryName" class="form-label"></label>
+            <input asp-for="CategoryName" class="form-control" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="WhatsAppNumber" class="form-label"></label>
+            <input asp-for="WhatsAppNumber" class="form-control" />
+            <span asp-validation-for="WhatsAppNumber" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="WorkingHours" class="form-label"></label>
+            <input asp-for="WorkingHours" class="form-control" />
+            <span asp-validation-for="WorkingHours" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 mb-3">
+            <label asp-for="ServiceDescription" class="form-label"></label>
+            <textarea asp-for="ServiceDescription" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="ServiceDescription" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 mb-3 form-check">
+            <input asp-for="IsFeatured" class="form-check-input" />
+            <label asp-for="IsFeatured" class="form-check-label"></label>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="col-12 mb-3">
+                <label class="form-label">الصورة الحالية</label><br />
+                <img src="@Model.ImageUrl" alt="@Model.ServiceName" style="max-width:250px;" class="img-thumbnail" />
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+    <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

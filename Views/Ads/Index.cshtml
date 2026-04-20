@@ -1,0 +1,63 @@
+@model IEnumerable<Qaryati.Models.Ad>
+
+@{
+    ViewData["Title"] = "الإعلانات";
+    var selectedVillage = ViewBag.SelectedVillage as string;
+    var searchTerm = ViewBag.SearchTerm as string;
+}
+
+<div class="section-header mb-4">
+    <h1 class="mb-0">الإعلانات</h1>
+    <span class="section-subtitle">منتجات، شقق، هاند ميد، وغير ذلك</span>
+</div>
+
+<div class="card shadow-sm border-0 p-3 mb-4">
+    <form asp-action="Index" method="get" class="row g-2">
+        <div class="col-md-5">
+            <input type="text" name="searchTerm" value="@searchTerm" class="form-control" placeholder="ابحث عن إعلان..." />
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="villageName" value="@selectedVillage" class="form-control" placeholder="اكتب اسم البلد..." />
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">تصفية</button>
+        </div>
+    </form>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var ad in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="service-card h-100">
+                    <div class="service-card-body d-flex flex-column">
+                        <h4 class="service-title">@ad.Title</h4>
+
+                        <p class="service-description">
+                            @(string.IsNullOrEmpty(ad.Description) ? "لا يوجد وصف متاح." : ad.Description)
+                        </p>
+
+                        <div class="service-meta">
+                            <p><strong>النوع:</strong> @ad.AdType</p>
+                            <p><strong>البلد:</strong> @ad.VillageName</p>
+                            <p><strong>السعر:</strong> @(string.IsNullOrEmpty(ad.Price) ? "غير محدد" : ad.Price)</p>
+                        </div>
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-primary btn-sm">عرض التفاصيل</a>
+                            <a href="tel:@ad.PhoneNumber" class="btn btn-success btn-sm">اتصال</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info shadow-sm">
+        لا توجد إعلانات متاحة حاليًا.
+    </div>
+}

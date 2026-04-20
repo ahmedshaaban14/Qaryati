@@ -1,0 +1,35 @@
+@model IEnumerable<Qaryati.Models.Category>
+
+@{
+    ViewData["Title"] = "الأقسام";
+}
+
+<h1 class="mb-4">الأقسام</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">إضافة قسم جديد</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>الوصف</th>
+            <th style="width: 220px;">العمليات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">تفاصيل</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">تعديل</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

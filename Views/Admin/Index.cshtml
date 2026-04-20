@@ -1,0 +1,46 @@
+@model Qaryati.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<h1 class="mb-4">لوحة تحكم الأدمن</h1>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-primary shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">عدد الأقسام</h5>
+                <p class="card-text fs-2">@Model.CategoriesCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-success shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">عدد الخدمات</h5>
+                <p class="card-text fs-2">@Model.ServicesCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card text-dark bg-warning shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">الخدمات المميزة</h5>
+                <p class="card-text fs-2">@Model.FeaturedServicesCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h3 class="mb-3">روابط سريعة</h3>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-controller="Categories" asp-action="Index" class="btn btn-primary">إدارة الأقسام</a>
+        <a asp-controller="Services" asp-action="Index" class="btn btn-success">إدارة الخدمات</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">عرض الموقع</a>
+    </div>
+</div>

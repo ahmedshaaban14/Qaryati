@@ -1,0 +1,74 @@
+@model Qaryati.Models.AdSubmission
+
+@{
+    ViewData["Title"] = "أضف إعلان";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="suggestion-box">
+            <div class="card-body p-4">
+                <h1 class="mb-3">أضف إعلان جديد</h1>
+                <p class="text-muted mb-4">
+                    يمكنك إرسال إعلانك، وسيتم مراجعته من الأدمن قبل نشره على الموقع.
+                </p>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="AdvertiserName" class="form-label"></label>
+                            <input asp-for="AdvertiserName" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="AdType" class="form-label"></label>
+                            <input asp-for="AdType" class="form-control" placeholder="مثال: شقة / منتج / Hand Made" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="VillageName" class="form-label"></label>
+                            <input asp-for="VillageName" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Price" class="form-label"></label>
+                            <input asp-for="Price" class="form-control" placeholder="اختياري" />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label class="form-label">الصورة</label>
+                            <input type="file" name="imageFile" class="form-control" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">إرسال الإعلان</button>
+                    <a asp-controller="Ads" asp-action="Index" class="btn btn-secondary">العودة</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

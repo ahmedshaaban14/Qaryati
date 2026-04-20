@@ -1,0 +1,65 @@
+@model IEnumerable<Qaryati.Models.AdSubmission>
+
+@{
+    ViewData["Title"] = "طلبات الإعلانات";
+}
+
+<h1 class="mb-4">طلبات الإعلانات</h1>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>العنوان</th>
+            <th>النوع</th>
+            <th>البلد</th>
+            <th>المعلن</th>
+            <th>الحالة</th>
+            <th>التاريخ</th>
+            <th style="width: 260px;">الإجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.AdType</td>
+                <td>@item.VillageName</td>
+                <td>@item.AdvertiserName</td>
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <span class="badge bg-warning text-dark">قيد المراجعة</span>
+                    }
+                    else if (item.Status == "Approved")
+                    {
+                        <span class="badge bg-success">مقبول</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">مرفوض</span>
+                    }
+                </td>
+                <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">تعديل</a>
+
+                    @if (item.Status == "Pending")
+                    {
+                        <form asp-action="Approve" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">موافقة</button>
+                        </form>
+
+                        <form asp-action="Reject" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">رفض</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,87 @@
+@{
+    ViewData["Title"] = "اقترح خدمة";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="suggestion-box">
+            <div class="card-body p-4">
+                <h1 class="mb-3">اقترح خدمة جديدة</h1>
+                <p class="text-muted mb-4">
+                    لو تعرف خدمة أو محل أو مطعم أو صيدلية مش موجودة، ابعت بياناتها وإحنا هنراجعها قبل إضافتها للموقع.
+                </p>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                <form asp-action="AddSuggestion" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">اسمك</label>
+                            <input name="SubmitterName" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">رقمك</label>
+                            <input name="SubmitterPhone" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">اسم الخدمة</label>
+                            <input name="ServiceName" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">اسم القسم المقترح</label>
+                            <input name="CategoryName" class="form-control" placeholder="مثال: مطاعم - صنايعية - صيدليات" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">اسم البلد</label>
+                            <input name="VillageName" class="form-control" placeholder="مثال: منطقتي / المنطقة المجاورة" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">رقم هاتف الخدمة</label>
+                            <input name="PhoneNumber" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">رقم واتساب</label>
+                            <input name="WhatsAppNumber" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">العنوان</label>
+                            <input name="Address" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">مواعيد العمل</label>
+                            <input name="WorkingHours" class="form-control" />
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label class="form-label">وصف الخدمة</label>
+                            <textarea name="ServiceDescription" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label class="form-label">صورة الخدمة / المنيو</label>
+                            <input type="file" name="imageFile" class="form-control" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">إرسال الاقتراح</button>
+                    <a asp-action="Index" class="btn btn-secondary">الرجوع للرئيسية</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

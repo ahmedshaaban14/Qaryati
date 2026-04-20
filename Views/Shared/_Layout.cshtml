@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Qaryati.Models.ApplicationUser> SignInManager
+
+@{
+    var isAdmin = SignInManager.IsSignedIn(User);
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - منطقتي</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Qaryati.styles.css" asp-append-version="true" />
+</head>
+<body class="@(isAdmin ? "admin-mode" : "user-mode")">
+    <header>
+        <nav class="navbar navbar-expand-lg @(isAdmin ? "admin-navbar" : "custom-navbar") shadow-sm">
+            <div class="container custom-navbar-container">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    @if (isAdmin)
+                    {
+                        <i class="fas fa-shield-alt brand-icon"></i>
+                        <span class="brand-text">Qaryati Admin</span>
+                    }
+                    else
+                    {
+                        <i class="fas fa-map-location-dot brand-icon"></i>
+                        <span class="brand-text">منطقتي</span>
+                    }
+                </a>
+
+                <button class="navbar-toggler custom-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    @if (isAdmin)
+                    {
+                        <!-- Admin Navbar -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center custom-nav-links">
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Admin" asp-action="Index">لوحة التحكم</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Categories" asp-action="Index">إدارة الأقسام</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Services" asp-action="Index">إدارة الخدمات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Suggestions" asp-action="Index">اقتراحات الخدمات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="AdSubmissions" asp-action="Index">طلبات الإعلانات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Ads" asp-action="Manage">إدارة الإعلانات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-controller="Home" asp-action="Index">عرض الموقع</a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn nav-auth-btn admin-logout-btn">
+                                        تسجيل الخروج
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- User Navbar -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center custom-nav-links">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Categories">الأقسام</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="AllServices">الخدمات</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Ads" asp-action="Index">الإعلانات</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="SuggestionForm">اقترح خدمة</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="AdSubmissions" asp-action="Create">أضف إعلان</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="About">معلومات عني</a>
+                            </li>
+                        </ul>
+
+                        <form class="custom-search-wrapper mx-lg-3 my-3 my-lg-0" asp-controller="Home" asp-action="Search" method="get">
+                            <input class="custom-search-input" type="search" name="searchTerm" placeholder="ابحث عن خدمة أو محل..." aria-label="Search">
+                            <button class="custom-search-btn" type="submit">بحث</button>
+                        </form>
+
+                        <div class="ms-lg-auto mt-3 mt-lg-0">
+                            <a class="btn nav-auth-btn login-btn" asp-controller="Account" asp-action="Login">دخول الأدمن</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container main-content">
+        <main role="main" class="pb-4">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="custom-footer mt-5 @(isAdmin ? "admin-footer" : "")">
+        <div class="container text-center">
+            <p class="mb-0">
+                @(isAdmin ? "Admin Panel - Qaryati" : "© 2026 - منطقتي | دليل خدمات المنطقة")
+            </p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

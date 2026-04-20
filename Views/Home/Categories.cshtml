@@ -1,0 +1,68 @@
+@model IEnumerable<Qaryati.Models.Category>
+
+@functions {
+    public string GetCategoryIcon(string categoryName)
+    {
+        if (string.IsNullOrEmpty(categoryName))
+            return "📂";
+
+        categoryName = categoryName.ToLower();
+
+        if (categoryName.Contains("صيد"))
+            return "💊";
+        if (categoryName.Contains("مطعم") || categoryName.Contains("أكل"))
+            return "🍽️";
+        if (categoryName.Contains("سوبر") || categoryName.Contains("ماركت"))
+            return "🛒";
+        if (categoryName.Contains("صنايعي") || categoryName.Contains("كهرب") || categoryName.Contains("سباك") || categoryName.Contains("نجار"))
+            return "🔧";
+        if (categoryName.Contains("دكتور") || categoryName.Contains("طبيب") || categoryName.Contains("عيادة"))
+            return "🩺";
+        if (categoryName.Contains("مخبز") || categoryName.Contains("عيش") || categoryName.Contains("فرن"))
+            return "🍞";
+        if (categoryName.Contains("موبايل") || categoryName.Contains("هاتف"))
+            return "📱";
+        if (categoryName.Contains("توصيل") || categoryName.Contains("دليفري"))
+            return "🚚";
+
+        return "📂";
+    }
+}
+
+@{
+    ViewData["Title"] = "الأقسام";
+}
+
+<div class="section-header mb-4">
+    <h1 class="mb-0">كل الأقسام</h1>
+    <span class="section-subtitle">تصفح الأقسام المتاحة داخل الموقع</span>
+</div>
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="category-card h-100">
+                <div class="category-card-body d-flex flex-column">
+                    <div class="category-icon mb-3">@GetCategoryIcon(category.Name)</div>
+
+                    <h4 class="category-title mb-3">@category.Name</h4>
+
+                    <p class="category-description flex-grow-1">
+                        @(string.IsNullOrEmpty(category.Description) ? "لا يوجد وصف لهذا القسم حاليًا." : category.Description)
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-light text-dark border">
+                            عدد الخدمات: @category.Services.Count
+                        </span>
+
+                        <a asp-action="CategoryServices" asp-route-id="@category.Id" class="btn btn-primary btn-sm">
+                            عرض الخدمات
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

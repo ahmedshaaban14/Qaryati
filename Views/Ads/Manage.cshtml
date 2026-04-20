@@ -1,0 +1,38 @@
+@model IEnumerable<Qaryati.Models.Ad>
+
+@{
+    ViewData["Title"] = "إدارة الإعلانات";
+}
+
+<h1 class="mb-4">إدارة الإعلانات المنشورة</h1>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>العنوان</th>
+            <th>النوع</th>
+            <th>البلد</th>
+            <th>المعلن</th>
+            <th>الهاتف</th>
+            <th>التاريخ</th>
+            <th style="width: 220px;">الإجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ad in Model)
+        {
+            <tr>
+                <td>@ad.Title</td>
+                <td>@ad.AdType</td>
+                <td>@ad.VillageName</td>
+                <td>@ad.AdvertiserName</td>
+                <td>@ad.PhoneNumber</td>
+                <td>@ad.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info btn-sm">تفاصيل</a>
+                    <a asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-danger btn-sm">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

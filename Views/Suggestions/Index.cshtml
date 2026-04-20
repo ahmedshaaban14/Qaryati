@@ -1,0 +1,79 @@
+@model IEnumerable<Qaryati.Models.Suggestion>
+
+@{
+    ViewData["Title"] = "اقتراحات الخدمات";
+}
+
+<h1 class="mb-4">اقتراحات الخدمات</h1>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>مقدم الاقتراح</th>
+            <th>اسم الخدمة</th>
+            <th>القسم</th>
+            <th>الهاتف</th>
+            <th>صورة</th>
+            <th>الحالة</th>
+            <th>التاريخ</th>
+            <th style="width: 300px;">الإجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@item.SubmitterName</strong><br />
+                    <small>@item.SubmitterPhone</small>
+                </td>
+                <td>@item.ServiceName</td>
+                <td>@item.CategoryName</td>
+                <td>@item.PhoneNumber</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.ServiceName" style="width:70px;height:70px;object-fit:cover;" class="rounded" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">لا يوجد</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <span class="badge bg-warning text-dark">قيد المراجعة</span>
+                    }
+                    else if (item.Status == "Approved")
+                    {
+                        <span class="badge bg-success">مقبول</span>
+                    }
+                    else if (item.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">مرفوض</span>
+                    }
+                </td>
+                <td>@item.CreatedAt.ToString("yyyy-MM-dd hh:mm tt")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">تعديل</a>
+
+                    @if (item.Status == "Pending")
+                    {
+                        <form asp-action="Approve" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">موافقة</button>
+                        </form>
+
+                        <form asp-action="Reject" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">رفض</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

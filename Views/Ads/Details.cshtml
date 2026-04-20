@@ -1,0 +1,54 @@
+@model Qaryati.Models.Ad
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm border-0 overflow-hidden">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;" />
+            }
+            else
+            {
+                <div class="d-flex align-items-center justify-content-center" style="height: 280px; background: linear-gradient(135deg, #eef7f1, #dff1e4);">
+                    <div class="service-avatar" style="width: 90px; height: 90px; font-size: 2rem;">
+                        @Model.Title.Substring(0, 1)
+                    </div>
+                </div>
+            }
+
+            <div class="card-body p-4">
+                <h1 class="mb-3">@Model.Title</h1>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <p><strong>Ad Type:</strong> @(string.IsNullOrEmpty(Model.AdType) ? "Not specified" : Model.AdType)</p>
+                        <p><strong>Price:</strong> @(string.IsNullOrEmpty(Model.Price) ? "Not specified" : Model.Price)</p>
+                        <p><strong>Village:</strong> @(string.IsNullOrEmpty(Model.VillageName) ? "Not specified" : Model.VillageName)</p>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <p><strong>Advertiser:</strong> @Model.AdvertiserName</p>
+                        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+                        <p><strong>Published At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+                    </div>
+                </div>
+
+                <hr />
+
+                <h4 class="mb-3">Description</h4>
+                <p class="text-muted">
+                    @(string.IsNullOrEmpty(Model.Description) ? "No description available for this ad." : Model.Description)
+                </p>
+
+                <div class="mt-4 d-flex gap-2 flex-wrap">
+                    <a href="tel:@Model.PhoneNumber" class="btn btn-success">Call Now</a>
+                    <a asp-controller="Ads" asp-action="Index" class="btn btn-secondary">Back to Ads</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+@model IEnumerable<Qaryati.Models.Service>
+
+@{
+    ViewData["Title"] = "الخدمات";
+    var selectedVillage = ViewBag.SelectedVillage as string;
+    var searchTerm = ViewBag.SearchTerm as string;
+}
+
+<div class="section-header mb-4">
+    <h1 class="mb-0">كل الخدمات</h1>
+    <span class="section-subtitle">تصفح كل الخدمات المتاحة</span>
+</div>
+
+<div class="card shadow-sm border-0 p-3 mb-4">
+    <form asp-action="AllServices" method="get" class="row g-2">
+        <div class="col-md-5">
+            <input type="text" name="searchTerm" value="@searchTerm" class="form-control" placeholder="ابحث عن خدمة..." />
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="villageName" value="@selectedVillage" class="form-control" placeholder="اكتب اسم البلد..." />
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">تصفية</button>
+        </div>
+    </form>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var service in Model)
+        {
+            var firstLetter = !string.IsNullOrEmpty(service.Name) ? service.Name.Substring(0, 1) : "خ";
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="service-card h-100">
+                    <div class="service-card-body d-flex flex-column">
+                        <div class="service-avatar">@firstLetter</div>
+
+                        @if (service.IsFeatured)
+                        {
+                            <span class="badge bg-warning text-dark mb-2 align-self-start">خدمة مميزة</span>
+                        }
+
+                        <h4 class="service-title">@service.Name</h4>
+
+                        <p class="service-description">
+                            @(string.IsNullOrEmpty(service.Description) ? "لا يوجد وصف متاح لهذه الخدمة." : service.Description)
+                        </p>
+
+                        <div class="service-meta">
+                            <p><strong>القسم:</strong> @service.Category?.Name</p>
+                            <p><strong>البلد:</strong> @(string.IsNullOrEmpty(service.VillageName) ? "غير محددة" : service.VillageName)</p>
+                            <p><strong>رقم الهاتف:</strong> @service.PhoneNumber</p>
+                            <p><strong>العنوان:</strong> @(string.IsNullOrEmpty(service.Address) ? "غير متوفر" : service.Address)</p>
+                        </div>
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <a asp-action="ServiceDetails" asp-route-id="@service.Id" class="btn btn-primary btn-sm">
+                                عرض التفاصيل
+                            </a>
+
+                            <a href="tel:@service.PhoneNumber" class="btn btn-success btn-sm">
+                                اتصال
+                            </a>
+
+                            @if (!string.IsNullOrEmpty(service.WhatsAppNumber))
+                            {
+                                <a href="https://wa.me/@service.WhatsAppNumber" target="_blank" class="btn btn-outline-success btn-sm">
+                                    واتساب
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info shadow-sm">
+        لا توجد خدمات مطابقة للبحث أو الفلتر الحالي.
+    </div>
+}

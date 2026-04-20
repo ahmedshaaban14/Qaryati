@@ -1,0 +1,36 @@
+@model Qaryati.Models.Ad
+
+@{
+    ViewData["Title"] = "حذف الإعلان";
+}
+
+<h1 class="mb-4 text-danger">حذف الإعلان</h1>
+
+<div class="alert alert-warning">
+    هل أنت متأكد أنك تريد حذف هذا الإعلان؟
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h3>@Model.Title</h3>
+        <p><strong>النوع:</strong> @Model.AdType</p>
+        <p><strong>البلد:</strong> @Model.VillageName</p>
+        <p><strong>المعلن:</strong> @Model.AdvertiserName</p>
+        <p><strong>الهاتف:</strong> @Model.PhoneNumber</p>
+        <p><strong>السعر:</strong> @(string.IsNullOrEmpty(Model.Price) ? "غير محدد" : Model.Price)</p>
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="mt-3">
+                <img src="@Model.ImageUrl" alt="@Model.Title" style="max-width: 250px;" class="img-thumbnail" />
+            </div>
+        }
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+    <a asp-action="Manage" class="btn btn-secondary">إلغاء</a>
+</form>
