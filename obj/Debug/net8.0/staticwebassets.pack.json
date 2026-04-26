@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\Qaryati.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\HH\\Desktop\\Qaryati\\wwwroot\\css\\animations.css",
+      "PackagePath": "staticwebassets\\css\\animations.css"
+    },
+    {
+      "Id": "C:\\Users\\HH\\Desktop\\Qaryati\\wwwroot\\css\\components.css",
+      "PackagePath": "staticwebassets\\css\\components.css"
+    },
+    {
       "Id": "C:\\Users\\HH\\Desktop\\Qaryati\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

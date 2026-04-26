@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Qaryati")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+005ba7a1400aa53af4ddc96771d2c2c314ba5e35")]
 [assembly: System.Reflection.AssemblyProductAttribute("Qaryati")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Qaryati")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

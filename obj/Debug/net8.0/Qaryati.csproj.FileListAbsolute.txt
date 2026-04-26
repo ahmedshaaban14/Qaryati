@@ -137,3 +137,4 @@ C:\Users\HH\Desktop\Qaryati\obj\Debug\net8.0\Qaryati.csproj.CopyComplete
 C:\Users\HH\Desktop\Qaryati\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\HH\Desktop\Qaryati\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\HH\Desktop\Qaryati\obj\Debug\net8.0\Qaryati.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\HH\Desktop\Qaryati\obj\Debug\net8.0\Qaryati.sourcelink.json
